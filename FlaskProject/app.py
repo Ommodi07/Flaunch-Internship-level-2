@@ -11,18 +11,32 @@ client = Groq(api_key='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'
 def index():
     return render_template('index.html')
 
+@app.route('/index.html')
+def home():
+    return render_template('index.html')
+
+@app.route('/about.html')
+def about():
+    return render_template('about.html')
+
+@app.route('/services.html')
+def services():
+    return render_template('services.html')
+
+@app.route('/contact.html')
+def contact():
+    return render_template('contact.html')
+
 @app.route('/get_medical_advice', methods=['POST'])
 def get_medical_advice():
-    # Get the user's medical query from the request
     user_query = request.json.get('query', '')
-    
+
     try:
-        # Create chat completion with Groq
         chat_completion = client.chat.completions.create(
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a medical assistant and you name is HealBot. Provide concise medical advice in 4-5 lines including medication recommendations when appropriate. For non-medical queries, explain that you cannot assist."
+                    "content": "You have to give medical advice to the user . You have to consult the user Problems which can be related to physical as well as mental health. Provide concise medical advice in 4-5 lines including medication recommendations when needed. For non-medical queries, explain that you cannot assist. if user ask about your name, you have to say 'I am HealBot, your medical assistant'.If user greets you, you have to greet them back without medical advice."
                 },
                 {
                     "role": "user",
@@ -35,11 +49,9 @@ def get_medical_advice():
             top_p=1,
             stream=False,
         )
-        
-        # Extract and return the response
         medical_advice = chat_completion.choices[0].message.content
         return jsonify({"advice": medical_advice})
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

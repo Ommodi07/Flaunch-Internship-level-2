@@ -7,7 +7,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <style>
-        /* Existing styles */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -16,7 +15,6 @@
             color: #333;
         }
 
-        /* New Navigation Styles */
         .navbar {
             background: linear-gradient(135deg, #4CAF50, #45a049);
             padding: 1rem 2rem;
@@ -50,7 +48,8 @@
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
+            align-items: center;
         }
 
         .nav-links a {
@@ -66,7 +65,6 @@
             transform: translateY(-2px);
         }
 
-        /* Modified container margin to account for navbar */
         .container {
             max-width: 600px;
             margin: 20px auto;
@@ -76,7 +74,6 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Rest of existing styles */
         h1 {
             text-align: center;
             color: #4CAF50;
@@ -99,20 +96,6 @@
             background-color: #f8f8f8;
         }
 
-        .chat {
-            margin-bottom: 15px;
-        }
-
-        .user-message {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .bot-reply {
-            margin-left: 10px;
-            color: #555;
-        }
-
         textarea {
             width: 100%;
             padding: 10px;
@@ -120,11 +103,26 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             resize: none;
+            display: block;
             box-sizing: border-box;
         }
 
+        .input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .language-selector {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
         button {
-            width: 100%;
+            flex-grow: 1;
             padding: 12px;
             font-size: 1rem;
             color: #fff;
@@ -132,7 +130,6 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
             transition: background-color 0.3s;
         }
 
@@ -140,20 +137,85 @@
             background-color: #45a049;
         }
 
-        .loader {
-            display: none;
-            margin: 10px auto;
-            border: 4px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 4px solid #4CAF50;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
+        #start-mic-btn {
+            background-color: #007bff;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        #start-mic-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .loader::after {
+            content: "Loading...";
+            color: #4CAF50;
+        }
+
+        /* for chatbox */
+        .chat {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #e1f5e1;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 12px;
+            max-width: 70%;
+            margin: 5px 0;
+            word-wrap: break-word;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .bot-reply {
+            align-self: flex-start;
+            background-color: #f0f0f5;
+            color: #4CAF50;
+            padding: 10px 15px;
+            border-radius: 12px;
+            max-width: 70%;
+            margin: 5px 0;
+            word-wrap: break-word;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 10px;
+            }
+
+            .nav-links a {
+                padding: 0.5rem 1rem;
+                width: 100%;
+                text-align: left;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .language-selector {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -165,79 +227,123 @@
                 HealBot
             </a>
             <div class="nav-links">
-                <a href="#"><i class="fas fa-home"></i> Home</a>
-                <a href="#"><i class="fas fa-info-circle"></i> About</a>
-                <a href="#"><i class="fas fa-book-medical"></i> Services</a>
-                <a href="#"><i class="fas fa-phone"></i> Contact</a>
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="services.html"><i class="fas fa-book-medical"></i> Services</a>
+                <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
         <h1>HealBot</h1>
-        <p class="description">Your friendly medical assistant. Describe your concern and get advice instantly!</p>
+        <p class="description">Your friendly medical assistant. Speak or type your concern and get advice instantly!</p>
         <div class="chat-container" id="chat-container">
             <!-- Past messages and replies will appear here -->
         </div>
+
+        <div class="input-container">
+            <select id="language-selector" class="language-selector">
+                <option value="en-IN">English</option>
+                <option value="hi-IN">Hindi</option>
+                <option value="gu-IN">Gujarati</option>
+                <option value="mr-IN">Marathi</option>
+            </select>
+        </div>
+        
         <textarea id="query" rows="4" placeholder="Describe your medical concern..."></textarea>
         <button onclick="getMedicalAdvice()">Send</button>
-        <div class="loader" id="loader"></div>
+
+        <!-- Start Mic Button -->
+        <button id="start-mic-btn" onclick="startMicInput()">Start Mic</button>
+
+        <div id="loader" class="loader"></div>
     </div>
 
     <script>
-        function getMedicalAdvice() {
-            const query = $('#query').val().trim();
-            
-            if (!query) {
-                alert('Please enter a valid query.');
+        let micActive = false;
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.interimResults = false;
+
+        function startMicInput() {
+            if (micActive) {
+                stopMicInput();
                 return;
             }
 
-            $('#loader').show();
-            $('#query').val(''); // Clear the input field
+            micActive = true;
+            recognition.lang = document.getElementById('language-selector').value;
 
-            // Append user's message to the chat container
-            const chatContainer = $('#chat-container');
-            chatContainer.append(`
-                <div class="chat">
-                    <span class="user-message">You:</span>
-                    <span>${query}</span>
-                </div>
-            `);
+            recognition.start();
 
-            $.ajax({
-                url: '/get_medical_advice',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ query: query }),
-                success: function(response) {
-                    $('#loader').hide();
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('query').value = transcript; // Set the text area to the recognized speech
+            };
 
-                    // Append bot's reply to the chat container
-                    chatContainer.append(`
-                        <div class="chat">
-                            <span class="user-message">HealBot:</span>
-                            <span class="bot-reply">${response.advice}</span>
-                        </div>
-                    `);
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                alert('There was an error with the microphone. Please try again.');
+            };
 
-                    // Scroll to the bottom of the chat container
-                    chatContainer.scrollTop(chatContainer[0].scrollHeight);
-                },
-                error: function(xhr) {
-                    $('#loader').hide();
+            recognition.onend = () => {
+                micActive = false;
+                document.getElementById('start-mic-btn').textContent = 'Start Mic'; // Reset the button text
+            };
 
-                    // Append error message to the chat container
-                    chatContainer.append(`
-                        <div class="chat">
-                            <span class="user-message">HealBot:</span>
-                            <span class="bot-reply" style="color: red;">Error: ${xhr.responseJSON?.error || 'An error occurred.'}</span>
-                        </div>
-                    `);
+            document.getElementById('start-mic-btn').textContent = 'Stop Mic'; // Change the button text when mic is active
+        }
 
-                    chatContainer.scrollTop(chatContainer[0].scrollHeight);
+        function stopMicInput() {
+            recognition.stop(); // Stop the recognition when the button is pressed again
+            micActive = false;
+            document.getElementById('start-mic-btn').textContent = 'Start Mic'; // Reset the button text
+        }
+
+        async function getMedicalAdvice() {
+            const query = document.getElementById('query').value;
+            if (!query.trim()) {
+                alert("Please enter a query.");
+                return;
+            }
+
+            const chatContainer = document.getElementById('chat-container');
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('user-message');
+            userMessage.innerText = query;
+            chatContainer.appendChild(userMessage);
+
+            // Show loader
+            document.getElementById('loader').style.display = 'block';
+
+            try {
+                const response = await fetch('/get_medical_advice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query })
+                });
+
+                const data = await response.json();
+
+                if (data.advice) {
+                    const botReply = document.createElement('div');
+                    botReply.classList.add('bot-reply');
+                    botReply.innerText = data.advice;
+                    chatContainer.appendChild(botReply);
+                } else if (data.error) {
+                    const botReply = document.createElement('div');
+                    botReply.classList.add('bot-reply');
+                    botReply.innerText = 'Error: ' + data.error;
+                    chatContainer.appendChild(botReply);
                 }
-            });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            document.getElementById('loader').style.display = 'none';
         }
     </script>
 </body>
