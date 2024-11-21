@@ -6,218 +6,7 @@
     <title>HealBot - Your Medical Assistant</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-
-        .navbar {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .nav-brand i {
-            margin-right: 10px;
-            font-size: 1.8rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .nav-links a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #4CAF50;
-        }
-
-        .description {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            color: #555;
-        }
-
-        .chat-container {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            background-color: #f8f8f8;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: none;
-            display: block;
-            box-sizing: border-box;
-        }
-
-        .input-container {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .language-selector {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        button {
-            flex-grow: 1;
-            padding: 12px;
-            font-size: 1rem;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        #start-mic-btn {
-            background-color: #007bff;
-        }
-
-        #start-mic-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .loader {
-            display: none;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .loader::after {
-            content: "Loading...";
-            color: #4CAF50;
-        }
-
-        /* for chatbox */
-        .chat {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background-color: #e1f5e1;
-            color: #333;
-            padding: 10px 15px;
-            border-radius: 12px;
-            max-width: 70%;
-            margin: 5px 0;
-            word-wrap: break-word;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .bot-reply {
-            align-self: flex-start;
-            background-color: #f0f0f5;
-            color: #4CAF50;
-            padding: 10px 15px;
-            border-radius: 12px;
-            max-width: 70%;
-            margin: 5px 0;
-            word-wrap: break-word;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                align-items: flex-start;
-                margin-top: 10px;
-            }
-
-            .nav-links a {
-                padding: 0.5rem 1rem;
-                width: 100%;
-                text-align: left;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            button {
-                width: 100%;
-            }
-
-            .language-selector {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="static/index.css">
 </head>
 <body>
     <nav class="navbar">
@@ -238,113 +27,45 @@
     <div class="container">
         <h1>HealBot</h1>
         <p class="description">Your friendly medical assistant. Speak or type your concern and get advice instantly!</p>
-        <div class="chat-container" id="chat-container">
-            <!-- Past messages and replies will appear here -->
+        <div id="chat-container">
+            <!-- User and bot messages will be appended here -->
         </div>
-
-        <div class="input-container">
-            <select id="language-selector" class="language-selector">
-                <option value="en-IN">English</option>
+        
+        <div id="loader" style="display:none;">Loading...</div>
+        
+        <div style="margin-top: 20px;">
+            <textarea id="query" placeholder="Type your query..." style="width: 100%; height: 100px;"></textarea>
+        </div>
+        
+        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+            <!-- Submit Button -->
+            <button onclick="getMedicalAdvice()" style="flex: 1; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Submit
+            </button>
+        
+            <!-- Start Mic Button -->
+            <button id="start-mic-btn" onclick="startMicInput()" style="flex: 1; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Start Mic
+            </button>
+        
+            <!-- Language Selector -->
+            <select id="language-selector" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                <option value="en-US">English</option>
                 <option value="hi-IN">Hindi</option>
                 <option value="gu-IN">Gujarati</option>
                 <option value="mr-IN">Marathi</option>
             </select>
         </div>
         
-        <textarea id="query" rows="4" placeholder="Describe your medical concern..."></textarea>
-        <button onclick="getMedicalAdvice()">Send</button>
-
-        <!-- Start Mic Button -->
-        <button id="start-mic-btn" onclick="startMicInput()">Start Mic</button>
-
-        <div id="loader" class="loader"></div>
+        <div style="margin-top: 10px; display: flex; justify-content: center;">
+            <!-- Listen Button -->
+            <button onclick="listenToResponse()" style="padding: 10px; background-color: #ffc107; color: black; border: none; border-radius: 5px; cursor: pointer;">
+                Listen to Response
+            </button>
+        </div>
+        
+        
     </div>
-
-    <script>
-        let micActive = false;
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.interimResults = false;
-
-        function startMicInput() {
-            if (micActive) {
-                stopMicInput();
-                return;
-            }
-
-            micActive = true;
-            recognition.lang = document.getElementById('language-selector').value;
-
-            recognition.start();
-
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                document.getElementById('query').value = transcript; // Set the text area to the recognized speech
-            };
-
-            recognition.onerror = (event) => {
-                console.error('Speech recognition error:', event.error);
-                alert('There was an error with the microphone. Please try again.');
-            };
-
-            recognition.onend = () => {
-                micActive = false;
-                document.getElementById('start-mic-btn').textContent = 'Start Mic'; // Reset the button text
-            };
-
-            document.getElementById('start-mic-btn').textContent = 'Stop Mic'; // Change the button text when mic is active
-        }
-
-        function stopMicInput() {
-            recognition.stop(); // Stop the recognition when the button is pressed again
-            micActive = false;
-            document.getElementById('start-mic-btn').textContent = 'Start Mic'; // Reset the button text
-        }
-
-        async function getMedicalAdvice() {
-            const query = document.getElementById('query').value;
-            if (!query.trim()) {
-                alert("Please enter a query.");
-                return;
-            }
-
-            const chatContainer = document.getElementById('chat-container');
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('user-message');
-            userMessage.innerText = query;
-            chatContainer.appendChild(userMessage);
-
-            // Show loader
-            document.getElementById('loader').style.display = 'block';
-
-            try {
-                const response = await fetch('/get_medical_advice', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ query })
-                });
-
-                const data = await response.json();
-
-                if (data.advice) {
-                    const botReply = document.createElement('div');
-                    botReply.classList.add('bot-reply');
-                    botReply.innerText = data.advice;
-                    chatContainer.appendChild(botReply);
-                } else if (data.error) {
-                    const botReply = document.createElement('div');
-                    botReply.classList.add('bot-reply');
-                    botReply.innerText = 'Error: ' + data.error;
-                    chatContainer.appendChild(botReply);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            document.getElementById('loader').style.display = 'none';
-        }
-    </script>
+    <script src="static/index.js"></script>
 </body>
 </html>
