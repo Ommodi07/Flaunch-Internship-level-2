@@ -37,6 +37,13 @@
             <textarea id="query" placeholder="Type your query..." style="width: 100%; height: 100px;"></textarea>
         </div>
         
+        <div style="margin-top: 10px; display: inline; justify-content: center;">
+            <!-- Listen Button -->
+            <button onclick="listenToResponse()" style="padding: 10px; background-color: #03a519; color: rgb(252, 252, 252); border: none; border-radius: 4px; cursor: pointer;">
+                Listen
+            </button>
+        </div>
+
         <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
             <!-- Submit Button -->
             <button onclick="getMedicalAdvice()" style="flex: 1; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
@@ -56,15 +63,6 @@
                 <option value="mr-IN">Marathi</option>
             </select>
         </div>
-        
-        <div style="margin-top: 10px; display: flex; justify-content: center;">
-            <!-- Listen Button -->
-            <button onclick="listenToResponse()" style="padding: 10px; background-color: #ffc107; color: black; border: none; border-radius: 5px; cursor: pointer;">
-                Listen to Response
-            </button>
-        </div>
-        
-        
     </div>
     <script src="static/index.js"></script>
 </body>
