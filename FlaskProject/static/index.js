@@ -1,42 +1,51 @@
 let micActive = false;
-let lastBotResponse = ""; // To store the latest bot response
+let lastBotResponse = "";
+let userData = null;
+let sessionId = null;
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.interimResults = false;
 
-function startMicInput() {
-    if (micActive) {
-        stopMicInput();
+function generateSessionId() {
+    return 'session_' + Math.random().toString(36).substr(2, 9);
+}
+
+function submitRegistration() {
+    const name = document.getElementById('userName').value.trim();
+    const age = document.getElementById('userAge').value;
+    const gender = document.getElementById('userGender').value;
+
+    if (!name || !age || !gender) {
+        alert('Please fill in all fields');
         return;
     }
 
-    micActive = true;
-    recognition.lang = document.getElementById('language-selector').value;
+    if (age < 1 || age > 120) {
+        alert('Please enter a valid age between 1 and 120');
+        return;
+    }
 
-    recognition.start();
-
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById('query').value = transcript; // Set the text area to the recognized speech
+    userData = {
+        name: name,
+        age: age,
+        gender: gender
     };
 
-    recognition.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-        alert('There was an error with the microphone. Please try again.');
-    };
+    // Generate a new session ID
+    sessionId = generateSessionId();
 
-    recognition.onend = () => {
-        micActive = false;
-        document.getElementById('start-mic-btn').textContent = 'Start Mic'; // Reset the button text
-    };
+    // Hide registration overlay and show chat interface
+    document.getElementById('registrationOverlay').classList.add('hidden');
+    document.getElementById('chatInterface').classList.remove('hidden');
 
-    document.getElementById('start-mic-btn').textContent = 'Stop Mic'; // Change the button text when mic is active
+    // Add welcome message
+    const chatContainer = document.getElementById('chat-container');
+    const welcomeMessage = document.createElement('div');
+    welcomeMessage.classList.add('bot-reply');
+    welcomeMessage.innerText = `Welcome ${name}! I'm HealBot, your medical assistant. How can I help you today?`;
+    chatContainer.appendChild(welcomeMessage);
 }
 
-function stopMicInput() {
-    recognition.stop(); // Stop the recognition when the button is pressed again
-    micActive = false;
-    document.getElementById('start-mic-btn').textContent = 'Start Mic'; // Reset the button text
-}
+// ... (keeping the mic-related functions unchanged) ...
 
 async function getMedicalAdvice() {
     const query = document.getElementById('query').value;
@@ -51,7 +60,6 @@ async function getMedicalAdvice() {
     userMessage.innerText = query;
     chatContainer.appendChild(userMessage);
 
-    // Show loader
     document.getElementById('loader').style.display = 'block';
 
     try {
@@ -60,7 +68,11 @@ async function getMedicalAdvice() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ query })
+            body: JSON.stringify({
+                query,
+                userData: userData,
+                sessionId: sessionId
+            })
         });
 
         const data = await response.json();
@@ -71,8 +83,12 @@ async function getMedicalAdvice() {
             botReply.innerText = data.advice;
             chatContainer.appendChild(botReply);
 
-            // Update the latest bot response
             lastBotResponse = data.advice;
+
+            // If server sent a new session ID, update it
+            if (data.sessionId) {
+                sessionId = data.sessionId;
+            }
         } else if (data.error) {
             const botReply = document.createElement('div');
             botReply.classList.add('bot-reply');
@@ -85,9 +101,46 @@ async function getMedicalAdvice() {
 
     chatContainer.scrollTop = chatContainer.scrollHeight;
     document.getElementById('loader').style.display = 'none';
+    document.getElementById('query').value = ''; // Clear input field after sending
 }
 
-// Text-to-Speech function for the latest response
+// ... (keeping the listenToResponse function unchanged) ...
+
+function startMicInput() {
+    if (micActive) {
+        stopMicInput();
+        return;
+    }
+
+    micActive = true;
+    recognition.lang = document.getElementById('language-selector').value;
+
+    recognition.start();
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('query').value = transcript;
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        alert('There was an error with the microphone. Please try again.');
+    };
+
+    recognition.onend = () => {
+        micActive = false;
+        document.getElementById('start-mic-btn').textContent = 'Start Mic';
+    };
+
+    document.getElementById('start-mic-btn').textContent = 'Stop Mic';
+}
+
+function stopMicInput() {
+    recognition.stop();
+    micActive = false;
+    document.getElementById('start-mic-btn').textContent = 'Start Mic';
+}
+
 function listenToResponse() {
     if (!lastBotResponse) {
         alert("No response available to listen to.");
@@ -96,7 +149,7 @@ function listenToResponse() {
 
     if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(lastBotResponse);
-        utterance.lang = document.getElementById('language-selector').value; // Set language based on user's selection
+        utterance.lang = document.getElementById('language-selector').value;
         speechSynthesis.speak(utterance);
     } else {
         console.error("Text-to-Speech not supported in this browser.");

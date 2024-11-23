@@ -9,6 +9,31 @@
     <link rel="stylesheet" href="static/index.css">
 </head>
 <body>
+    <!-- Registration Overlay -->
+    <div id="registrationOverlay" class="overlay">
+        <div class="registration-form">
+            <h2>Welcome to HealBot</h2>
+            <div class="form-group">
+                <label for="userName">Name:</label>
+                <input type="text" id="userName" required>
+            </div>
+            <div class="form-group">
+                <label for="userAge">Age:</label>
+                <input type="number" id="userAge" min="1" max="120" required>
+            </div>
+            <div class="form-group">
+                <label for="userGender">Gender:</label>
+                <select id="userGender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button onclick="submitRegistration()" style="width: 100%;">Start Chat</button>
+        </div>
+    </div>
+
     <nav class="navbar">
         <div class="nav-content">
             <a href="#" class="nav-brand">
@@ -24,7 +49,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div id="chatInterface" class="container hidden">
         <h1>HealBot</h1>
         <p class="description">Your friendly medical assistant. Speak or type your concern and get advice instantly!</p>
         <div id="chat-container">
@@ -34,28 +59,24 @@
         <div id="loader" style="display:none;">Loading...</div>
         
         <div style="margin-top: 20px;">
-            <textarea id="query" placeholder="Type your query..." style="width: 100%; height: 100px;"></textarea>
+            <textarea id="query" placeholder="Type your query..." style="width: 95%; height: 100px;"></textarea>
         </div>
         
         <div style="margin-top: 10px; display: inline; justify-content: center;">
-            <!-- Listen Button -->
             <button onclick="listenToResponse()" style="padding: 10px; background-color: #03a519; color: rgb(252, 252, 252); border: none; border-radius: 4px; cursor: pointer;">
                 Listen
             </button>
         </div>
 
         <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
-            <!-- Submit Button -->
             <button onclick="getMedicalAdvice()" style="flex: 1; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
                 Submit
             </button>
         
-            <!-- Start Mic Button -->
             <button id="start-mic-btn" onclick="startMicInput()" style="flex: 1; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
                 Start Mic
             </button>
         
-            <!-- Language Selector -->
             <select id="language-selector" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
                 <option value="en-US">English</option>
                 <option value="hi-IN">Hindi</option>
@@ -64,6 +85,7 @@
             </select>
         </div>
     </div>
+
     <script src="static/index.js"></script>
 </body>
 </html>
