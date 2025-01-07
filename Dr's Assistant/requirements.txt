@@ -1,8 +1,0 @@
-Flask
-Pillow
-opencv-python
-numpy
-pytesseract
-PyPDF2
-python-dotenv
-groq
