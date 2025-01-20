@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: rgb(216, 235, 255);
+    background-color: #f0f0f0;
     overflow: auto;
 }
 
@@ -13,18 +13,17 @@ body {
     left: 0;
     height: 100%;
     width: 10%; /* Collapsed width */
-    background-color: #1e2b6374;
+    background-color: rgba(64, 64, 64, 0.45);
     transition: 0.2s ease-in-out;
-    overflow: hidden; /* Prevent overflow of sidebar items */
+    overflow: hidden;
     z-index: 100;
 }
-
 
 /* Sidebar expanded on hover */
 .sidebar:hover {
     width: 20%; /* Expanded width */
-     background-color: #1e3663;
-    transition: 0.2s ease-in-out;
+    background-color: #404040;
+    transition: 0.9s ease-in-out;
 }
 
 .sidebar h1 {
@@ -40,7 +39,7 @@ body {
     font-size: 2rem;
     text-shadow: 5px 5px 10px #000000;
     opacity: 1;
-    color: rgb(185, 237, 255);
+    color: #ffffff;
     transition: 0.2s ease-in-out;
 }
 
@@ -54,11 +53,11 @@ body {
     padding: 0px;
     margin: 50px 0 0;
     height: 100%;
-    display:flex;
+    display: flex;
     flex-direction: column;
-    justify-content:first baseline;
+    justify-content: first baseline;
     align-items: center;
-    opacity: 1; /* Hide the list items when sidebar is collapsed */
+    opacity: 1;
     transition: 0.1s ease-in-out;
 }
 
@@ -68,11 +67,11 @@ body {
     padding: 0px;
     margin: 50px 0 0;
     height: 100%;
-    display:flex;
+    display: flex;
     flex-direction: column;
-    justify-content:first baseline;
+    justify-content: first baseline;
     align-items: center;
-    opacity: 1; /* Make the list items visible on hover */
+    opacity: 1;
     transition: 0.3s ease-in-out;
 }
 
@@ -80,14 +79,14 @@ body {
 .sidebar ul li {
     margin: 0;
     padding: 10px;
-    width: 100%; /* Ensure the list items stay within the sidebar */
+    width: 100%;
     text-align: center;
 }
 
 /* Sidebar links styling */
 .sidebar ul li a {
     text-decoration: none;
-    color: rgb(225, 243, 255);
+    color: #ffffff;
     font-size: 1rem;
     font-weight: bold;
     display: block;
@@ -97,10 +96,10 @@ body {
 }
 
 .sidebar ul li a:focus {
-    outline: 2px solid #1e2d63;
+    outline: 2px solid #333333;
     outline-offset: 2px;
-    background-color: #051d54;
-    color: rgb(185, 204, 255);
+    background-color: #1a1a1a;
+    color: #e6e6e6;
 }
 
 .sidebar:hover ul li a {
@@ -111,28 +110,28 @@ body {
 .sidebar ul li a:hover {
     font-size: 1.6rem;
     font-weight: bold;
-    text-shadow: 5px 5px 5px #4396c9;
-    background-color: rgb(185, 221, 255);
-    color: #1e4563;
+    text-shadow: 5px 5px 5px #808080;
+    background-color: #e6e6e6;
+    color: #333333;
     border-radius: 15px;
     transition: 0.2s ease-in-out;
 }
 
 /* Main content styling */
 .main-content {
-    margin-left: 10%; /* Space for collapsed sidebar */
+    margin-left: 10%;
     transition: margin-left 0.3s ease-in-out;
 }
 
 .sidebar:hover ~ .main-content {
-    margin-left: 20%; /* Space for expanded sidebar */
+    margin-left: 20%;
 }
 
 /* Title heading styling */
 h1 {
     font-size: 3rem;
-    color: #001191;
-    text-shadow: 5px 5px 15px rgba(38, 68, 91, 0.585);
+    color: #1a1a1a;
+    text-shadow: 5px 5px 15px rgba(64, 64, 64, 0.585);
     text-align: center;
 }
 
@@ -141,10 +140,10 @@ h1 {
     padding: 20px;
     margin: 20px auto;
     max-width: 800px;
-    background-color: rgb(185, 213, 255);
+    background-color: #d9d9d9;
     border-radius: 10px;
     box-shadow: 0px 8px 8px 8px rgba(0, 0, 0, 0.511);
-    color: #1e3b63;
+    color: #333333;
     font-size: 1rem;
     line-height: 1.6;
 }
@@ -152,7 +151,7 @@ h1 {
 /* Subheading inside About Us */
 .about-section h2 {
     font-size: 1.5em;
-    color: #051254;
+    color: #1a1a1a;
     font-weight: bold;
     text-align: center;
     margin-bottom: 10px;
@@ -160,20 +159,19 @@ h1 {
 
 .names {
     font-size: 1.2rem;
-    color: #051054;
+    color: #1a1a1a;
 }
 
 .sub-content {
     padding: 20px;
     margin: 20px auto;
     max-width: 800px;
-    background-color: rgb(185, 218, 255);
+    background-color: #d9d9d9;
     border-radius: 10px;
     box-shadow: 0px 8px 8px 8px rgba(0, 0, 0, 0.511);
-    color: #1e2463;
+    color: #333333;
     font-size: 1rem;
     line-height: 1.6;
-
 }
 
 /* File Upload Form Styles */
@@ -181,10 +179,10 @@ h1 {
     padding: 20px;
     margin: 20px auto;
     max-width: 800px;
-    background-color: rgb(185, 218, 255);
+    background-color: #d9d9d9;
     border-radius: 10px;
     box-shadow: 0px 8px 8px 8px rgba(0, 0, 0, 0.511);
-    color: #1e2c63;
+    color: #333333;
     font-size: 1rem;
     line-height: 1.6;
     display: flex;
@@ -194,7 +192,7 @@ h1 {
 
 .file-label h2 {
     font-size: 1.5em;
-    color: #22306d;
+    color: #333333;
     text-align: center;
     margin-bottom: 10px;
 }
@@ -203,11 +201,11 @@ h1 {
     padding: 15px;
     text-align: center;
     margin-bottom: 20px;
-    background-color: #1e2063;
+    background-color: #333333;
     cursor: pointer;
     border-radius: 10px;
     box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.511);
-    color: rgb(185, 215, 255);
+    color: #e6e6e6;
     align-content: center;
     font-size: 1rem;
     line-height: 1.6;
@@ -215,8 +213,8 @@ h1 {
 
 .upload-btn {
     padding: 15px 15px;
-    background-color: #1e2b63;
-    color: rgb(185, 218, 255);
+    background-color: #404040;
+    color: #e6e6e6;
     border: none;
     border-radius: 15px;
     font-weight: bold;
@@ -229,8 +227,8 @@ h1 {
     padding: 15px 15px;
     font-size: 2rem;
     font-weight: bolder;
-    background-color: #050d54;
-    color: rgb(185, 219, 255);
+    background-color: #1a1a1a;
+    color: #ffffff;
     transition: 0.2s;
 }
 
@@ -246,20 +244,19 @@ h1 {
 
 .summary-output {
     padding: 15px;
-    
 }
 
 ::-webkit-scrollbar {
-    background-color: rgb(185, 218, 255);
+    background-color: #d9d9d9;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #1e256379;
+    background-color: rgba(64, 64, 64, 0.47);
     border-radius: 20px;
     transition: 1s ease-in-out;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #1e2163;
+    background-color: #333333;
     transition: 1s ease-in-out;
 }

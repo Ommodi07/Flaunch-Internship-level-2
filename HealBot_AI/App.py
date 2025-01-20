@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Required for session management
 
 # Initialize Groq client
-client = Groq(api_key='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')
+client = Groq(api_key='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')
 
 # Store chat histories in memory (for production, use a database)
 chat_histories = {}
