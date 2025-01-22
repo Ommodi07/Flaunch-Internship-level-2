@@ -1,0 +1,8 @@
+[python]
+version = "3.9"
+
+[build]
+pkgs = ["gcc", "libffi", "openssl"]
+
+[start]
+command = "gunicorn app:app --bind 0.0.0.0:${PORT:-8000}"

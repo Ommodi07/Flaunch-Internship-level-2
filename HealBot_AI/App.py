@@ -1,12 +1,17 @@
 from flask import Flask, render_template, request, jsonify, session
 from groq import Groq
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from the .env file
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Required for session management
 
-# Initialize Groq client
-client = Groq(api_key='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')
+# Initialize Groq client with API key from the .env file
+api_key = os.getenv('GROQ_API_KEY')
+client = Groq(api_key=api_key)
 
 # Store chat histories in memory (for production, use a database)
 chat_histories = {}
@@ -52,7 +57,7 @@ def get_medical_advice():
         You have to consult the user Problems which can be related to physical as well as mental health. 
         Provide concise medical advice in 4-5 lines including medication recommendations when needed. 
         For non-medical queries, explain that you cannot assist. 
-        if user ask about your name, you have to say 'I am HealBot, your medical assistant'.
+        if user ask about your name, you have to say 'I am HealBot, your medical assistant'..
         If user greets you, you have to greet them back without medical advice.
         
         Previous conversation context:
